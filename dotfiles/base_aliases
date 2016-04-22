@@ -1,0 +1,95 @@
+alias va='vim ~/.aliases'
+alias rehash="source ~/.aliases"
+alias aliases='grep alias ~/.aliases | awk "{print $2}"'
+
+# Navigation aliases
+alias q='exit'
+alias .='cd ../'
+alias ..='cd ../../'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias path='echo $PATH'
+
+#alias ls='ls -GF --color --human-readable'
+alias ls='ls -GF'
+#alias l='ls -CF'
+#alias lc='ls -CF'
+#alias la='ls -A'
+#alias ll='ls -l'
+#alias lal='ls -al'
+#alias lL='ll -L'
+#alias lld='ll -d'
+
+alias c='clear'
+alias cls='clear;ls'
+alias cp='cp -i'
+#alias rsync='rsync -avPz'
+alias rsync='rsync -avPz --partial --progress'
+#alias rm='rm -i'
+alias rmfr='rm -fr'
+alias less='less -R'
+alias more='less'
+
+alias h='history'
+alias hgrep='history | grep'
+
+alias tm='tmux'
+alias tma='tmux attach'
+alias tmd='tmux detach'
+#alias tm='tmuxinator'
+alias dict='curl -s dict://dict.org/d:${1}'
+
+#alias log='2>&1 |tee $1'
+alias df='df -klH'
+#alias du='du -skh'
+alias du='du -ch'
+alias unique='sort -u'
+alias upage='sort -u | less'
+
+# Make backup of current file in vim, retaining absolute file path
+# :w %:p_BACKUP
+# :%s/\s\+$//e
+alias vi='vim'
+alias ta='vi -t'
+alias e='vi '
+alias ctags='/opt/local/bin/ctags -f TAGS -R'
+
+alias unrar='unrar x'
+alias tgz='tar cvfpz'
+
+alias agrep='aliases | grep'
+alias pgrep='ps -efa | grep'
+alias wgrep='grep -A 5 -B 5'
+alias ping='ping -c 5'
+alias wget='wget --no-check-certificate'
+
+# dev aliases
+alias src='cd ~/src'
+alias tmp='cd ~/tmp'
+alias dm='diffmerge'
+
+# Recursive ls -l: /usr/bin/find . -type f -name '*' -exec ls -l \{\} \;
+# Recursive ls sort by date /usr/bin/find . -type f -exec ls -1lrt "{}" +;
+
+#
+# Functions
+#
+
+function deep_list() { /usr/bin/find . -type f -exec ls -1lrt "{}" +; }
+function find() { /usr/bin/find -L . -type f -name $1 -print; }
+function lfind() { /usr/bin/find -L . -maxdepth 1 -type f -name $1 -print; }
+function tfind() { /usr/bin/find -L . -type f -name $1 -exec file {} \; }
+function finddir() { /usr/bin/find -L . -type d -name "$1" -print; }
+function findvim() { /usr/bin/find -L . -type f -name "$1" -exec vim \{\} \; ; }
+function cgrep() { egrep -R --include=*.{css,scss} "$1" . ; }
+function imlgrep() { egrep -R --include=*.iml "$1" . ; }
+function jsgrep() { egrep -R --include=*.{js} "$1" . ; }
+function pygrep() { egrep -R --include=*.{py} "$1" . ; }
+function rgrep() { egrep -R --include=*.{rb,erb} "$1" . ; }
+function confgrep() { egrep -R --include=*.{yml,xml} "$1" . ; }
+function rubygrep() { egrep -R --include=*.{rb,erb,js,json,htm,html,css} "$1" . ; }
+function sgrep() { egrep -R --include=*.{scala} "$1" . ; }
+function tgrep() { egrep -R --include=*.{erb,css,htm,html} "$1" . ; }
+function xgrep() { egrep -R --include=*.{xml} "$1" . ; }
+function ygrep() { egrep -R --include=*.{yml} "$1" . ; }
+

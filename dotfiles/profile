@@ -1,3 +1,4 @@
+echo "sourcing ~/.profile"
 ##
 ## Setup Prompt
 ##
@@ -42,10 +43,6 @@ shopt -s no_empty_cmd_completion
 ## Envariables
 ##
 
-# MacPorts Installer addition on 2010-02-02_at_16:16:55: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
-
 # Put the real mysql utils at the beginning of the path.
 export PATH=/opt/local/lib/mysql5/bin:$PATH
 export PATH=/opt/local/lib/postgresql90/bin:$PATH
@@ -56,7 +53,8 @@ export HISTSIZE=100000
 export LSCOLORS="ExfxcxdxbxEgedabagacad"
 export TMPDIR=/tmp
 
-export EDITOR="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
+#export EDITOR="/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient"
+export EDITOR=vim
 export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 
 [[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -65,11 +63,10 @@ export CVS_EDITOR=$EDITOR SVN_EDITOR=$EDITOR GIT_EDITOR=$EDITOR
 ## Aliases
 ##
 
+# TODO: Migrate to base_aliases
 alias su='sudo -s'
-alias df='df -klH '
 alias grep='grep --line-buffered --color=auto'
 alias less='less -R'
-alias lsof='lsof -nP'
 alias diff='diff -u'
 
 [[ -n "`which gfind`" ]] && alias find=gfind
@@ -96,4 +93,4 @@ function fcount {
 alias f=field
 
 ## EC2
-test -f .ec2/rc && source .ec2/rc
+#test -f .ec2/rc && source .ec2/rc

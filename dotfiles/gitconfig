@@ -73,8 +73,7 @@
     reflogExpireUnreachable = 90 days
     pruneExpire = 3 months ago
 [user]
-    name = Jordan Ritter
-    email = jpr5@darkridge.com
+    name = Peter White
+    email = pwhite2@gmail.com
 [github]
-    user = jpr5
-    token = 4225723a97dc811c978bde1c1c54a23d
+    user = pwhite2

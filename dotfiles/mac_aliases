@@ -1,0 +1,32 @@
+# Networking aliases
+alias flushdns='dscacheutil -flushcache'
+alias portcheck='sudo lsof -i' # call "portcheck <:portnum>"
+# replacement netstat cmd to find ports used by apps on OS X
+alias netstat_osx="sudo lsof -i -P"
+
+# Nginx
+#alias nginx-stop='sudo port unload nginx'
+alias nginx-stop='brew services stop nginx'
+#alias nginx-start='sudo port load nginx'
+alias nginx-start='brew services start nginx'
+
+# MySQL
+#alias mysql-stop='sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mysql5.plist'
+alias mysql-stop='brew services stop mariadb'
+#alias mysql-start='sudo launchctl load -w /Library/LaunchDaemons/org.macports.mysql5.plist'
+alias mysql-start='brew services start mariadb'
+
+# MongoDB
+#alias mongo-stop='sudo launchctl unload -w /Library/LaunchDaemons/org.macports.mongodb.plist'
+alias mongo-stop='brew services stop mongodb'
+#alias mongo-start='sudo launchctl load -w /Library/LaunchDaemons/org.macports.mongodb.plist'
+alias mongo-start='brew services start mongodb'
+
+# RabbitMQ
+#alias rabbit-stop='sudo port unload rabbitmq-server'
+#alias rabbit-start='sudo port load rabbitmq-server'
+alias rabbit-stop='sudo -u pwhite launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.rabbitmq.plist'
+alias rabbit-start='sudo -u pwhite launchctl load ~/Library/LaunchAgents/homebrew.mxcl.rabbitmq.plist'
+
+growl() { echo -e $'\e]9;'${1}'\007' ; return  ; }
+

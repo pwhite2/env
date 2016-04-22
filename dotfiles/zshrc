@@ -1,0 +1,314 @@
+# http://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html
+umask 002
+
+bindkey -v
+export KEYTIMEOUT=1
+
+export PATH="$HOME/bin:$HOME/.bin:$PATH"
+
+# recommended by brew doctor
+export PATH="/usr/local/bin:$PATH"
+
+source '/usr/local/opt/chruby/share/chruby/chruby.sh'
+source '/usr/local/opt/chruby/share/chruby/auto.sh'
+source /usr/local/share/gem_home/gem_home.sh
+
+#setopt INC_APPEND_HISTORY SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+#setopt APPEND_HISTORY
+unsetopt BG_NICE        # do NOT nice bg commands
+#setopt CORRECT         # command CORRECTION
+setopt EXTENDED_HISTORY # puts timestamps in the history
+setopt MENUCOMPLETE
+setopt ALL_EXPORT
+
+# Set/unset  shell options
+setopt   notify globdots correct pushdtohome cdablevars autolist
+setopt   correctall autocd recexact longlistjobs
+setopt   autoresume histignorealldups pushdsilent
+setopt   autopushd pushdminus extendedglob rcquotes mailwarning
+# allows things like "ls !(*job*)" to list all files that DO NOT contain "job" in the name
+setopt   no_bare_glob_qual
+unsetopt bgnice autoparamslash
+
+# Autoload zsh modules when they are referenced
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+# TODO: figure out what uses mapfile and whether I need it. If so, this probably isn't the right place to put it...
+#zmodload -ap zsh/mapfile mapfile
+
+TZ="America/Los_Angeles"
+HISTFILE=$HOME/.zhistory
+HISTSIZE=1000
+SAVEHIST=1000
+HOSTNAME="`hostname`"
+PAGER='less'
+EDITOR='vim'
+
+#Color table from: http://www.understudy.net/custom.html
+fg_black=%{$'\e[0;30m'%}
+fg_red=%{$'\e[0;31m'%}
+fg_green=%{$'\e[0;32m'%}
+fg_brown=%{$'\e[0;33m'%}
+fg_blue=%{$'\e[0;34m'%}
+fg_purple=%{$'\e[0;35m'%}
+fg_cyan=%{$'\e[0;36m'%}
+fg_lgray=%{$'\e[0;37m'%}
+fg_dgray=%{$'\e[1;30m'%}
+fg_lred=%{$'\e[1;31m'%}
+fg_lgreen=%{$'\e[1;32m'%}
+fg_yellow=%{$'\e[1;33m'%}
+fg_lblue=%{$'\e[1;34m'%}
+fg_pink=%{$'\e[1;35m'%}
+fg_lcyan=%{$'\e[1;36m'%}
+fg_white=%{$'\e[1;37m'%}
+#Text Background Colors
+bg_red=%{$'\e[0;41m'%}
+bg_green=%{$'\e[0;42m'%}
+bg_brown=%{$'\e[0;43m'%}
+bg_blue=%{$'\e[0;44m'%}
+bg_purple=%{$'\e[0;45m'%}
+bg_cyan=%{$'\e[0;46m'%}
+bg_gray=%{$'\e[0;47m'%}
+#Attributes
+at_normal=%{$'\e[0m'%}
+at_bold=%{$'\e[1m'%}
+at_italics=%{$'\e[3m'%}
+at_underl=%{$'\e[4m'%}
+at_blink=%{$'\e[5m'%}
+at_outline=%{$'\e[6m'%}
+at_reverse=%{$'\e[7m'%}
+at_nondisp=%{$'\e[8m'%}
+at_strike=%{$'\e[9m'%}
+at_boldoff=%{$'\e[22m'%}
+at_italicsoff=%{$'\e[23m'%}
+at_underloff=%{$'\e[24m'%}
+at_blinkoff=%{$'\e[25m'%}
+at_reverseoff=%{$'\e[27m'%}
+at_strikeoff=%{$'\e[29m'%}
+PR_NO_COLOR="%{$terminfo[sgr0]%}"
+
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' stagedstr '%F{green}●'
+zstyle ':vcs_info:*' unstagedstr '%F{yellow}●'
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
+zstyle ':vcs_info:*' enable git svn
+
+precmd () {
+    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
+        zstyle ':vcs_info:*' formats '%b%c%u'
+    } else {
+        zstyle ':vcs_info:*' formats '%b%c%u%F{red}●'
+    }
+    vcs_info
+}
+
+setopt prompt_subst
+#PROMPT='%F${fg_lgreen}%n@%m${fg_white} ${fg_lblue}%d${fg_white} ${fg_yellow}(${vcs_info_msg_0_}%F${fg_yellow}) ${fg_white}[${fg_green}%T${fg_white}] %(?/%F{blue}/%F{red})%%${at_normal} '
+#PROMPT='%F${fg_lgreen}%n@%m${fg_white} (${fg_lblue}%c)${fg_white} ${fg_yellow}(${vcs_info_msg_0_}%F${fg_yellow}) ${fg_white}[${fg_green}%T${fg_white}] %(?/%F{blue}/%F{red})%%${at_normal} '
+PROMPT='%F${fg_lgreen}%n@%m${fg_white} (${fg_lblue}%c)${fg_white} ${fg_yellow}(${vcs_info_msg_0_}%F${fg_yellow}) %(?/%F{blue}/%F{red})%%${at_normal} '
+#PROMPT='${fg_yellow}(${vcs_info_msg_0_}%F${fg_yellow}) %F${fg_lgreen}%n@%m${fg_white} ${fg_white} (${fg_lblue}%c) %(?/%F{blue}/%F{red})%%${at_normal} '
+
+#LANGUAGE=
+LC_ALL='en_US.UTF-8'
+LANG='en_US.UTF-8'
+#LC_CTYPE=C
+LC_CTYPE=$LANG
+
+unsetopt ALL_EXPORT
+
+autoload -U compinit
+compinit
+bindkey "^?" backward-delete-char
+bindkey '^[OH' beginning-of-line
+bindkey '^[OF' end-of-line
+bindkey '^[[5~' up-line-or-history
+bindkey '^[[6~' down-line-or-history
+bindkey "^r" history-incremental-search-backward
+bindkey ' ' magic-space    # also do history expansion on space
+bindkey '^I' complete-word # complete on tab, leave expansion to _expand
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
+
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' menu select=1 _complete _ignored _approximate
+zstyle -e ':completion:*:approximate:*' max-errors \
+    'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+
+# Completion Styles
+compdef _gnu_generic pushgerrit
+
+# list of completers to use
+zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+
+# allow one error for every three characters typed in approximate completer
+zstyle -e ':completion:*:approximate:*' max-errors \
+    'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
+
+# insert all expansions for expand completer
+zstyle ':completion:*:expand:*' tag-order all-expansions
+
+# formatting and messages
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+zstyle ':completion:*' group-name ''
+
+# match uppercase from lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}'
+
+# offer indexes before parameters in subscripts
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# command for process lists, the local web server details and host completion
+# on processes completion complete all user processes
+# zstyle ':completion:*:processes' command 'ps -au$USER'
+
+# command for process lists, the local web server details and host completion
+# on processes completion complete all user processes
+# zstyle ':completion:*:processes' command 'ps -au$USER'
+
+## add colors to processes for kill completion
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+#zstyle ':completion:*:processes' command 'ps ax -o pid,s,nice,stime,args | sed "/ps/d"'
+zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -A -o pid,user,cmd'
+zstyle ':completion:*:processes-names' command 'ps axho command'
+#zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
+#
+#NEW completion:
+# 1. All /etc/hosts hostnames are in autocomplete
+# 2. If you have a comment in /etc/hosts like #%foobar.domain,
+#    then foobar.domain will show up in autocomplete!
+zstyle ':completion:*' hosts $(awk '/^[^#]/ {print $2 $3" "$4" "$5}' /etc/hosts | grep -v ip6- && grep "^#%" /etc/hosts | awk -F% '{print $2}') # Filename suffixes to ignore during completion (except after rm command)
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
+    '*?.old' '*?.pro'
+# the same for old style completion
+#fignore=(.o .c~ .old .pro)
+
+# ignore completion functions (until the _ignored completer)
+zstyle ':completion:*:functions' ignored-patterns '_*'
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm apache bin daemon games gdm halt ident junkbust lp mail mailnull \
+        named news nfsnobody nobody nscd ntp operator pcap postgres radvd \
+        rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs avahi-autoipd\
+        avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail\
+        firebird gnats haldaemon hplip irc klog list man cupsys postfix\
+        proxy syslog www-data mldonkey sys snort
+# SSH Completion
+zstyle ':completion:*:scp:*' tag-order \
+   files users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
+zstyle ':completion:*:scp:*' group-order \
+   files all-files users hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:ssh:*' tag-order \
+   users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
+zstyle ':completion:*:ssh:*' group-order \
+   hosts-domain hosts-host users hosts-ipaddr
+zstyle '*' single-ignored show
+
+##Additions to zshrc
+if [ -f ~/.zshrc-additions ]; then
+    . ~/.zshrc-additions
+fi
+
+#plugins=(git mercurial autojump command-not-found python pip github gnu-utils history-substring-search)
+plugins=(git autojump command-not-found history-substring-search)
+
+##
+## Functions - Copied from https://github.com/cobbr2/homer
+##
+
+function field { s=""; c=""; for a in $*; do s="$s$c\$$a"; c=","; done; awk "{ print $s }"; }
+function fcount {
+    field $1 | sort | uniq -c | sort -rn | head $2
+}
+alias f=field
+
+# "Ticket Checkout"; go to a ticket branch if it exists, else create it.
+tc (){
+    b=$1;    if git checkout $b; then
+        : true;    else
+        git checkout -b $b;        git push origin $b;
+        git branch --set-upstream $b origin/$b;
+    fi
+}
+
+function ttitle {
+    if [ -z "$HOST" ] ; then
+        HOST=$(expr $(uname -n) : '\([^.]*\)')
+        if [ $HOST != "kali.local" ] ; then
+            export NON_KWYJI_HOST="$HOST"
+        fi
+    fi
+    if [ "$TERM" = "xterm-color" ] ; then
+        echo -n -e "\033]0;${NON_KWYJI_HOST:+$NON_KWYJI_HOST:}${1}\007"
+        #echo "MADE IT!"
+    fi
+}
+
+export SRCROOT=~/src
+export RAILS_ENV=development
+
+function work {
+    if [ -d $SRCROOT/$1 ] ; then
+        pushd $SRCROOT/$1
+    else
+        pushd $1
+    fi
+    ttitle $1
+}
+
+function stash_diff {
+    git stash show -p stash@{$1}
+}
+
+# Keep my tags up to date
+rtags ()
+{
+    # Uses exuberant tags, of course, since we're exuberantly Ruby folks
+    # In conjunction with setting the search path to be ... TAGS,TAGS.uncommon,
+    # this ensures that the stuff I want to find (Ez::Order) comes up sooner
+    # in my stack than stuff embedded in our local gems (ActiveRecord::Order).
+    # Haven't added the system gem library in, but will probably get around
+    # to that sometime. Also, would be cool to trigger rebuilds on gc, if they
+    # were faster.
+    #find $SRCROOT -type f -print | egrep -v '(common/gems|common/javascripts|.xml$)' | /opt/local/bin/ctags -f ~/TAGS -L - 2>&1 | grep -v 'ignoring null tag'
+    #find $SRCROOT -type f -print | egrep  '(common/gems|common/javascripts)' | /opt/local/bin/ctags -f ~/TAGS.uncommon -L - 2>&1 | grep -v 'ignoring null tag'
+    find $SRCROOT -type f -print | egrep -v '(common/gems|common/javascripts|.xml$)' | /usr/bin/etags -f ~/TAGS -L - 2>&1 | grep -v 'ignoring null tag'
+    find $SRCROOT -type f -print | egrep  '(common/gems|common/javascripts)' | /usr/bin/etags -f ~/TAGS.uncommon -L - 2>&1 | grep -v 'ignoring null tag'
+}
+
+# Get working branch into a variable. From
+# http://stackoverflow.com/questions/1593051/how-to-programmatically-determine-the-current-checked-out-git-branch
+pwb ()
+{
+    PWB=$(git symbolic-ref -q HEAD)
+    PWB=${PWB##refs/heads/}
+    export PWB=${PWB:-HEAD}
+}
+
+function cr ()
+{
+    pwb
+    git log -p $(git merge-base ${1:-master} ${PWB})..${PWB}
+}
+
+# TODO: Figure out your argument parsing.
+function crdiff ()
+{
+    pwb
+    git diff $(git merge-base ${1:-master} ${PWB})..${PWB} .
+}
+
+# Show ttys for open files in this directory (or tmps)
+function vit ()
+{
+    vi -re 2>&1 | awk '/^ *process ID:/ { print "ps -ef | grep " $3 " | grep -v grep" }' | sh | awk '{print $6}'
+}

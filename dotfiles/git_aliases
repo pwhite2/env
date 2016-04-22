@@ -1,0 +1,57 @@
+
+#
+# Git aliases
+#
+
+# git grep create.*Task */spec | upage
+# git diff-index -U --cached -G <regexp> HEAD # like git grep, for changed files only
+# Diff current work against a specific stash
+alias stash_diff='git stash show -p stash@{$1}'
+# Git alias command: git config --global alias.ci "commit" <-- now "git ci" is the same as "git commit"
+#alias clone='git clone --origin=scm ssh://pwhite@scm.dev.box.net/box/www/"$1"/ "$1"' -- see ~/bin/clone_repo
+# Use gitk to see revision history for a single file
+alias gd='git difftool'
+alias gdw='git difftool -w'
+alias gdiff='git difftool'
+alias rollback='git reset --soft HEAD^'
+#alias revert='git checkout -f ' # hard-reset - resets all modified (unstaged?)
+alias revert='git checkout HEAD -- ' # followed by filename
+alias revert_pull='git reset HEAD@{1}'
+alias ga='git add'
+alias gc='git commit'
+alias gl='git log --name-only'
+alias gla='git log --author'
+alias glp='git log --pretty=format:"%h%x09%an%x09%ad%x09%s"'
+alias gcf='git show --pretty="format:" --name-only '
+alias gcfcurrent='git show --pretty="format:" --name-only -n 1'
+# git log --name-status HEAD^..HEAD
+#alias foo='git log --pretty=format:'%h' -n 1'
+#alias foo='git log --pretty=format:'%H' -n 1'
+alias glch='git log -p -n 1'
+alias gg='git grep'
+alias fetch='git fetch'
+alias local_commits='git log origin/master..HEAD'
+alias push='git push'
+alias pull='git pull'
+alias gsync='git pull;git subup'
+# See http://gitready.com/beginner/2009/01/16/cleaning-up-untracked-files.html for more options
+alias gclean='git clean -n -d $1'
+alias gr='git rm --cached'
+alias gs='git status'
+alias cgs='c;git status'
+alias gst='git status --untracked-files=no'
+alias gds='git diff --stat -- .'
+# git update-server-info -f
+#alias gu='git fetch scm' #which alias is correct for svn update equiv  command?
+#alias gu='git pull --no-stat -v scm dev'
+alias gu='git pull scm dev'
+alias us='git reset HEAD'
+alias stash='git stash'
+alias branch='git checkout -b'
+alias gco='git checkout'
+
+alias branches='git branch -vv'
+alias bgrep='branches | grep'
+alias switch='git checkout'
+alias db='git branch -d'
+alias DB='git branch -D'
